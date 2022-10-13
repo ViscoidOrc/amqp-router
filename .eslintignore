@@ -1,0 +1,9 @@
+node_modules
+coverage
+*.md
+*.yml
+*.json
+jest.config.js
+scripts
+dist/**/*
+dist
