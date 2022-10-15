@@ -1,7 +1,7 @@
 import { NextFunction, AMQPRouteHandler } from '../types/middleware';
 import { AMQPRequest } from '../types/request';
 import { AMQPResponse } from '../types/response';
-import { matchAll, Matcher } from '../types/matcher';
+import { all, Matcher } from '../types/matcher';
 import { Layer } from './layer';
 import logger from '../utils/logger';
 
@@ -22,7 +22,7 @@ export class AMQPRouter {
     ...routes: (AMQPRouter | AMQPRouteHandler)[]
   ): this {
     if (!matcher) {
-      matcher = matchAll();
+      matcher = all();
     }
 
     let layer;

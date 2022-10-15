@@ -150,11 +150,11 @@ export function bodyRequestType(pattern: Pattern | string) {
   return _buildBodyMatcher('requestType', pattern);
 }
 
-export function matchAll(): Matcher {
+export function all(): Matcher {
   return _matchAll;
 }
 
-export function matchNone(): Matcher {
+export function none(): Matcher {
   return _matchNone;
 }
 
@@ -164,8 +164,8 @@ export function or(...matchers: Matcher[]) {
 
 export default {
   or,
-  matchNone,
-  matchAll,
+  none,
+  all,
   bodyRequestType,
   messageId,
   glob,

@@ -6,8 +6,9 @@
   "types": "types/index.d.ts",
   "scripts": {
     "build": "tsc && tsc --module commonjs --outDir lib/cjs && tsc --emitDeclarationOnly --removeComments false",
-    "postbuild": "echo '{\"type\": \"commonjs\"}' > lib/cjs/package.json",
+    "postbuild": "echo \"{\\\"type\\\": \\\"commonjs\\\"}\" > lib/cjs/package.json",
     "build:watch": "npx tsc --watch",
+    "debug": "nodemon -e ts,js,json -L -w dist -w src --enable-source-maps --preserve-symlinks --inspect=9232 lib/cjs/testme.js",
     "jest": "NODE_ENV=test jest"
   },
   "files": [
@@ -45,6 +46,7 @@
     "jest-circus": "^29.0.3",
     "jest-extended": "^3.1.0",
     "jest-junit": "^14.0.1",
+    "nodemon": "^2.0.20",
     "prettier": "^2.7.1",
     "rollup": "^3.1.0",
     "rollup-plugin-sourcemaps": "^0.6.3",

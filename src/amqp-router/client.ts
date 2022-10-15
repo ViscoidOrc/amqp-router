@@ -1,5 +1,4 @@
 import { AMQPChannel, AMQPClient } from '@cloudamqp/amqp-client';
-import { AMQPView } from '@cloudamqp/amqp-client/types/amqp-view';
 import { AMQPRouterError } from './errors';
 import { IRecoverableClient } from './types/client.interface';
 import { IChannelFactory, ChannelConstructorT } from './channel';
@@ -18,11 +17,11 @@ export class AMQPRecoverableClient<ChannelT extends AMQPChannel = AMQPChannel>
   constructor(channelClass: ChannelConstructorT<ChannelT>, url: string) {
     super(url);
     this.channelClass = channelClass;
-    this.channels = [];
+    this.channels = [this.createChannel(0)];
   }
   openChannel(channel: ChannelT): Promise<ChannelT> {
     let j = 0;
-    const channelOpen = new AMQPView(new ArrayBuffer(13));
+    const channelOpen = new DataView(new ArrayBuffer(13));
     channelOpen.setUint8(j, 1);
     j += 1; // type: method
     channelOpen.setUint16(j, channel.id);
@@ -66,5 +65,13 @@ export class AMQPRecoverableClient<ChannelT extends AMQPChannel = AMQPChannel>
     this.channels[id] = channel;
 
     return this.openChannel(channel);
+  }
+
+  protected parseFrames(view: any): void {
+    super.parseFrames(view);
+
+    if (this.channels.length === 1 && !(this.channels[0] instanceof this.channelClass)) {
+      this.channels = [this.createChannel(0)];
+    }
   }
 }

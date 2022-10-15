@@ -14,6 +14,7 @@ import logger from './utils/logger';
 import { AMQPRoutableConsumer } from './consumer';
 import { AMQPPublisher } from './publisher';
 import { AMQPRecoverableClient } from './client';
+import { resolve } from 'node:path';
 
 // TODO: to make this more generally robust
 // integrate support for pulling events from
@@ -67,9 +68,11 @@ export class AMQPRecoveryManager<
       }
     }
 
-    this._channel = await this.client.channel();
-    this.emit('client.connected', this);
-    return this;
+    return this.client.channel().then((channel) => {
+      this._channel = channel;
+      this.emit('client.connected', this);
+      return this;
+    });
   }
 
   public shutdown(): Promise<void> {
