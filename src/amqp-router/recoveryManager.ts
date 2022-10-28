@@ -77,12 +77,20 @@ export class AMQPRecoveryManager<
 
   public shutdown(): Promise<void> {
     logger.info('[AMQP] Shutting down connection');
-    this.off('client.disconnected', this.ondisconnected);
+    this.cancel();
+    if (this.listenerCount('client.disconnected') > 0) {
+      logger.error('[AMQP] entering shutdown with active disconnect listeners');
+    }
     return this.client.close('client shutdown');
   }
 
   public retry(): void {
     this.once('client.disconnected', this.connect);
+  }
+
+  public cancel(): void {
+    this.off('client.disconnected', this.ondisconnected);
+    this.off('client.disconnected', this.connect);
   }
 
   public declare(object: Declarator): this {
