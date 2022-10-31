@@ -55,15 +55,15 @@ class ExchangeDeclarator implements Declarator {
 export function exchange({
   name,
   type,
-  __namedParameters,
+  namedParameters,
   args,
 }: {
   name: string;
   type: string;
-  __namedParameters?: ExchangeParams;
+  namedParameters?: ExchangeParams;
   args?: ExtraArgsT;
 }): Declarator {
-  return new ExchangeDeclarator(name, type, __namedParameters, args);
+  return new ExchangeDeclarator(name, type, namedParameters, args);
 }
 
 export function queue(

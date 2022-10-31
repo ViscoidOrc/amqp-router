@@ -1,6 +1,6 @@
 {
   "name": "@viscoidorc/amqp-router",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "main": "lib/cjs/index.js",
   "license": "NONE",
   "types": "types/index.d.ts",
